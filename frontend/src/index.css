@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Light theme tokens */
+:root {
+  --canvas: 255 255 255;
+  --ink: 17 17 17;
+
+  --soft-cloud: 245 245 245;
+
+  --charcoal: 57 57 59;
+  --ash: 75 75 77;
+  --mute: 112 112 114;
+  --stone: 158 158 160;
+
+  --hairline: 202 202 203;
+  --hairline-soft: 229 229 229;
+}
+
+/* Dark theme tokens (Nike-like: still neutral, no gradients) */
+.dark {
+  --canvas: 17 17 17;       /* canvas becomes near-black */
+  --ink: 255 255 255;       /* ink becomes white */
+
+  --soft-cloud: 28 28 30;   /* dark surface */
+
+  --charcoal: 235 235 235;
+  --ash: 210 210 210;
+  --mute: 170 170 172;
+  --stone: 140 140 142;
+
+  --hairline: 44 44 46;
+  --hairline-soft: 34 34 36;
+}
+
+@layer base {
+  body {
+    @apply bg-canvas text-ink font-sans;
+  }
+}

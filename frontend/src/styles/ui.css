@@ -1,0 +1,46 @@
+@tailwind components;
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center h-12 px-8 rounded-pill bg-ink text-canvas
+      text-base font-medium leading-6 transition;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center h-12 px-8 rounded-pill bg-soft-cloud text-ink
+      text-base font-medium leading-6 transition;
+  }
+
+  .btn-outline-on-image {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-pill bg-canvas text-ink
+      text-base font-medium leading-6 transition;
+  }
+
+  .search-pill {
+    @apply h-10 w-full rounded-nike-md bg-soft-cloud px-4 text-base text-ink outline-none;
+  }
+
+  /* Form system (Nike-like: soft-cloud field, ink focus) */
+  .field {
+    @apply h-12 w-full rounded-nike-md bg-soft-cloud px-4 text-base text-ink outline-none
+      border border-transparent focus:border-ink;
+  }
+
+  .field-textarea {
+    @apply w-full rounded-nike-md bg-soft-cloud px-4 py-3 text-base text-ink outline-none
+      border border-transparent focus:border-ink;
+  }
+
+  .label {
+    @apply text-xs font-medium tracking-widest uppercase text-mute;
+  }
+
+  .helper {
+    @apply text-xs text-mute leading-5;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-pill border border-hairline bg-canvas px-4 py-2
+      text-sm font-medium text-ink;
+  }
+}

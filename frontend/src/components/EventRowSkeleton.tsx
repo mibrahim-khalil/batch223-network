@@ -1,0 +1,34 @@
+import Skeleton from "./Skeleton";
+
+export default function EventRowSkeleton() {
+  return (
+    <div className="py-6 border-b border-hairline-soft">
+      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+        <div className="max-w-3xl w-full">
+          <div className="flex flex-wrap items-center gap-2">
+            <Skeleton className="h-7 w-28 rounded-pill" />
+            <Skeleton className="h-4 w-40 rounded-nike-md" />
+          </div>
+
+          <div className="mt-3">
+            <Skeleton className="h-6 w-[420px] max-w-full rounded-nike-md" />
+          </div>
+
+          <div className="mt-2">
+            <Skeleton className="h-4 w-64 rounded-nike-md" />
+          </div>
+
+          <div className="mt-3 space-y-2">
+            <Skeleton className="h-4 w-[560px] max-w-full rounded-nike-md" />
+            <Skeleton className="h-4 w-[520px] max-w-full rounded-nike-md" />
+          </div>
+        </div>
+
+        <div className="flex gap-2">
+          <Skeleton className="h-12 w-24 rounded-pill" />
+          <Skeleton className="h-12 w-24 rounded-pill" />
+        </div>
+      </div>
+    </div>
+  );
+}
