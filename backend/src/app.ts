@@ -24,9 +24,14 @@ import adminRoutes from "./modules/admin/admin.routes";
 export const app = express();
 
 /**
+ *  IMPORTANT on Render/behind proxies:
+ * fixes express-rate-limit ValidationError for X-Forwarded-For
+ */
+app.set("trust proxy", 1);
+
+/**
  * Long-term CORS:
- * Set env.CORS_ORIGIN as comma-separated list, e.g.
- * CORS_ORIGIN=http://localhost:5173,https://your-vercel.vercel.app,https://your-custom-domain.com
+ * Render env: CORS_ORIGIN=http://localhost:5173,https://batch223-network.vercel.app
  */
 const allowedOrigins = String(env.CORS_ORIGIN || "")
   .split(",")
@@ -35,14 +40,9 @@ const allowedOrigins = String(env.CORS_ORIGIN || "")
 
 const corsOptions: CorsOptions = {
   origin(origin, cb) {
-    // allow server-to-server/curl/no-origin requests
-    if (!origin) return cb(null, true);
-
-    // if list is empty, allow nothing (secure default)
+    if (!origin) return cb(null, true); // allow curl/server-to-server
     if (allowedOrigins.length === 0) return cb(new Error("CORS: No origins configured"));
-
     if (allowedOrigins.includes(origin)) return cb(null, true);
-
     return cb(new Error(`CORS blocked: ${origin}`));
   },
   credentials: true,
@@ -50,17 +50,14 @@ const corsOptions: CorsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-// middleware
 app.use(helmet());
 app.use(cors(corsOptions));
-// Important for preflight requests (OPTIONS)
 app.options("*", cors(corsOptions));
 
 app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-// health
 app.get("/health", (_req, res) => res.json({ ok: true, name: "Batch223 API" }));
 
 app.get("/api/me", requireAuth, (req, res) => {
