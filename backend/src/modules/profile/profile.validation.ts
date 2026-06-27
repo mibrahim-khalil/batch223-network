@@ -59,8 +59,5 @@ export const updateMyProfileSchema = z
     avatarUrl: z.string().optional(),
     coverUrl: z.string().optional(),
     resumeUrl: z.string().optional(),
-
-    // locked
-    email: z.never().optional(),
   })
-  .strict();
+  .strip();
