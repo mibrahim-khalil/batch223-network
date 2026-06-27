@@ -31,6 +31,15 @@ export async function api<T>(
   const data = text ? JSON.parse(text) : null;
 
   if (!res.ok) {
+    if (auth && (res.status === 401 || res.status === 403)) {
+      localStorage.removeItem("batch223_access_token");
+      localStorage.removeItem("batch223_refresh_token");
+
+      if (!window.location.pathname.startsWith("/login")) {
+        window.location.href = "/login?expired=1";
+      }
+    }
+
     const msg =
       (data as ApiErrorShape)?.message ||
       `Request failed: ${res.status} ${res.statusText}`;

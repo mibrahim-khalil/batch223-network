@@ -6,11 +6,8 @@ export async function getMyProfileApi() {
 }
 
 export async function updateMyProfileApi(patch: Partial<Profile>) {
-  // IMPORTANT: backend does not allow updating email
-  // so always omit email if it exists in payload
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { email, ...safe } = patch as any;
-
+  // Remove read-only fields
+  const { email, registrationNumber, ...safe } = patch;
   return api<Profile>("/api/profile/me", {
     method: "PATCH",
     auth: true,

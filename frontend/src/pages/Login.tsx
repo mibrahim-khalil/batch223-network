@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { useAuth } from "../features/auth/AuthProvider";
 import { loginApi } from "../features/auth/authApi";
@@ -18,13 +18,25 @@ function looksUnverifiedError(e: any) {
 
 export default function Login() {
   const nav = useNavigate();
+  const location = useLocation();
   const { isAuthed, setSession } = useAuth();
+
+  const [notice, setNotice] = useState<string | null>(null);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [err, setErr] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    const qs = new URLSearchParams(location.search);
+    if (qs.get("expired") === "1") {
+      setNotice("Session timed out. Please login again.");
+    } else {
+      setNotice(null);
+    }
+  }, [location.search]);
 
   if (isAuthed) return <Navigate to="/app" replace />;
 
@@ -39,6 +51,12 @@ export default function Login() {
         <p className="mt-3 text-mute">Welcome back.</p>
 
         <div className="mt-8 space-y-3">
+          {notice ? (
+            <div className="rounded-nike-md border border-hairline-soft bg-soft-cloud px-4 py-3 text-sm text-ink">
+              {notice}
+            </div>
+          ) : null}
+
           <input
             className="search-pill"
             placeholder="bse223XXX@cust.pk"
@@ -115,7 +133,10 @@ export default function Login() {
 
           <div className="pt-2 text-sm">
             <p className="text-mute">Don’t have an account?</p>
-            <Link to="/register" className="inline-block mt-1 underline text-ink font-medium">
+            <Link
+              to="/register"
+              className="inline-block mt-1 underline text-ink font-medium"
+            >
               Register
             </Link>
           </div>

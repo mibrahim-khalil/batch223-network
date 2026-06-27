@@ -126,12 +126,10 @@ export default function ProfileEdit() {
       setBusy(true);
       setErr(null);
 
-      // ensure skills are committed
-      const finalProfile = { ...profile, skills: splitSkills(skillsDraft) };
+      const finalProfile: Profile = { ...profile, skills: splitSkills(skillsDraft) };
 
-      // omit email only
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { email, ...payload } = finalProfile as any;
+      // Remove read-only fields before sending patch
+      const { email, registrationNumber, ...payload } = finalProfile;
 
       const saved = await updateMyProfileApi(payload);
       saveProfile(saved);
@@ -143,7 +141,6 @@ export default function ProfileEdit() {
     }
   };
 
-  // Experience handlers
   const addExperience = () => {
     setProfile((p) => ({
       ...p,
@@ -167,7 +164,6 @@ export default function ProfileEdit() {
     }));
   };
 
-  // Education handlers
   const addEducation = () => {
     setProfile((p) => ({
       ...p,
@@ -584,7 +580,6 @@ export default function ProfileEdit() {
               </div>
             </section>
 
-            {/* Social Links */}
             <section className="border-t border-hairline pt-section">
               <h2 className="font-display uppercase text-2xl leading-none">Social Links</h2>
 
@@ -661,7 +656,6 @@ export default function ProfileEdit() {
               </div>
             </div>
 
-            {/* Uploads */}
             <div className="border border-hairline-soft bg-canvas p-6">
               <p className="label text-ink">Uploads (Cloudinary)</p>
 
